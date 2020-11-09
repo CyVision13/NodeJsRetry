@@ -1,17 +1,18 @@
 {
-  "name": "natours",
+  "name": "mynode",
   "version": "1.0.0",
   "description": "Learning node, express and mongoDB",
   "main": "app.js",
   "scripts": {
     "start:dev": "nodemon server.js",
-    "start:prod": "NODE_ENV=production nodemon server.js"
+    "start:prod": "NODE_ENV=production nodemon server.js",
+    "start": "node server.js"
   },
   "author": "Jonas Schmedtmann",
   "license": "ISC",
   "dependencies": {
     "dotenv": "^7.0.0",
-    "express": "^4.16.4",
+    "express": "^4.17.1",
     "morgan": "^1.9.1"
   },
   "devDependencies": {
@@ -24,5 +25,13 @@
     "eslint-plugin-prettier": "^3.0.1",
     "eslint-plugin-react": "^7.12.4",
     "prettier": "^1.17.0"
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/CyVision13/NodeJsRetry.git"
+  },
+  "bugs": {
+    "url": "https://github.com/CyVision13/NodeJsRetry/issues"
+  },
+  "homepage": "https://github.com/CyVision13/NodeJsRetry#readme"
 }
