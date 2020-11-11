@@ -6,16 +6,7 @@ const app = express();
 //* its bcz we could use json in post method and receive data
 app.use(express.json());
 
-// app.get('/', (req, res) => {
-//   res.status(200).json({
-//     message: 'Hello from the server side!',
-//     app: 'Natours'
-//   });
-// });
 
-// app.post('/', (req, res) => {
-//   res.send('You can post to this endpoint...');
-// });
 
 const tours = JSON.parse(
   fs.readFileSync(`${__dirname}/dev-data/data/tours-simple.json`)
@@ -108,15 +99,10 @@ const deleteTour = (req, res) => {
   });
 };
 
-// app.get('/api/v1/tours', getAllTour);
-
-// app.get('/api/v1/tours/:id/:x?', getTour);
-
-// app.post('/api/v1/tours', createTour);
-
-// app.patch('/api/v1/tours/:id', updateTour);
-
-// app.delete('/api/v1/tours/:id', deleteTour);
+app.use((req,res,next)=>{
+  console.log("Hello from the middleware11. Refactoring Our Routes 🔥  ");
+  next()
+})
 
 app
   .route('/api/v1/tours')
