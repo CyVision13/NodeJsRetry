@@ -1,16 +1,20 @@
 const fs = require('fs');
 const express = require('express');
+const morgan = require('morgan');
 
 const app = express();
+
+// 1) Middlewares
+app.use(morgan('dev'));
 
 //* its bcz we could use json in post method and receive data
 app.use(express.json());
 
-
-
 const tours = JSON.parse(
   fs.readFileSync(`${__dirname}/dev-data/data/tours-simple.json`)
 );
+
+// 2) Route handlers
 
 const getTour = (req, res) => {
   console.log(req.params);
@@ -99,10 +103,12 @@ const deleteTour = (req, res) => {
   });
 };
 
-app.use((req,res,next)=>{
-  console.log("Hello from the middleware11. Refactoring Our Routes 🔥  ");
-  next()
-})
+app.use((req, res, next) => {
+  console.log('Hello from the middleware11. Refactoring Our Routes 🔥  ');
+  next();
+});
+
+// 3) Routes
 
 app
   .route('/api/v1/tours')
@@ -114,6 +120,8 @@ app
   .get(getTour)
   .patch(updateTour)
   .delete(deleteTour);
+
+// 4) Start the server
 
 const port = 3000;
 
