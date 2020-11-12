@@ -39,7 +39,7 @@ const getTour = (req, res) => {
   });
 };
 
-const getAllTour = (req, res) => {
+const getAllTours = (req, res) => {
   res.status(200).json({
     status: 'success',
     results: tours.length,
@@ -103,6 +103,38 @@ const deleteTour = (req, res) => {
   });
 };
 
+
+const getAllUsers = (req,res)=>{
+  res.status(500).json({
+    status:'err',
+    message:'This route is not defind yet'
+  })
+}
+const createUser = (req,res)=>{
+  res.status(500).json({
+    status:'err',
+    message:'This route is not defind yet'
+  })
+}
+const getUser = (req,res)=>{
+  res.status(500).json({
+    status:'err',
+    message:'This route is not defind yet'
+  })
+}
+const updateUser = (req,res)=>{
+  res.status(500).json({
+    status:'err',
+    message:'This route is not defind yet'
+  })
+}
+const deleteUser = (req,res)=>{
+  res.status(500).json({
+    status:'err',
+    message:'This route is not defind yet'
+  })
+}
+
 app.use((req, res, next) => {
   console.log('Hello from the middleware11. Refactoring Our Routes 🔥  ');
   next();
@@ -112,7 +144,7 @@ app.use((req, res, next) => {
 
 app
   .route('/api/v1/tours')
-  .get(getAllTour)
+  .get(getAllTours)
   .post(createTour);
 
 app
@@ -120,6 +152,18 @@ app
   .get(getTour)
   .patch(updateTour)
   .delete(deleteTour);
+
+  app
+  .route('/api/v1/users')
+  .get(getAllUsers)
+  .post(createUser);
+
+app
+  .route('/api/v1/users/:id')
+  .get(getUser)
+  .patch(updateUser)
+  .delete(deleteUser);
+
 
 // 4) Start the server
 
