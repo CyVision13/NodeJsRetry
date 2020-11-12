@@ -141,18 +141,23 @@ app.use((req, res, next) => {
 });
 
 // 3) Routes
+app.use('/api/v1/tours',tourRouter)
 
-app
-  .route('/api/v1/tours')
+const tourRouter = express.Router()
+
+tourRouter
+  .route('/')
   .get(getAllTours)
   .post(createTour);
 
-app
-  .route('/api/v1/tours/:id')
+tourRouter
+  .route('/:id')
   .get(getTour)
   .patch(updateTour)
   .delete(deleteTour);
 
+
+  
   app
   .route('/api/v1/users')
   .get(getAllUsers)
