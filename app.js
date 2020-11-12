@@ -103,37 +103,36 @@ const deleteTour = (req, res) => {
   });
 };
 
-
-const getAllUsers = (req,res)=>{
+const getAllUsers = (req, res) => {
   res.status(500).json({
-    status:'err',
-    message:'This route is not defind yet'
-  })
-}
-const createUser = (req,res)=>{
+    status: 'err',
+    message: 'This route is not defind yet'
+  });
+};
+const createUser = (req, res) => {
   res.status(500).json({
-    status:'err',
-    message:'This route is not defind yet'
-  })
-}
-const getUser = (req,res)=>{
+    status: 'err',
+    message: 'This route is not defind yet'
+  });
+};
+const getUser = (req, res) => {
   res.status(500).json({
-    status:'err',
-    message:'This route is not defind yet'
-  })
-}
-const updateUser = (req,res)=>{
+    status: 'err',
+    message: 'This route is not defind yet'
+  });
+};
+const updateUser = (req, res) => {
   res.status(500).json({
-    status:'err',
-    message:'This route is not defind yet'
-  })
-}
-const deleteUser = (req,res)=>{
+    status: 'err',
+    message: 'This route is not defind yet'
+  });
+};
+const deleteUser = (req, res) => {
   res.status(500).json({
-    status:'err',
-    message:'This route is not defind yet'
-  })
-}
+    status: 'err',
+    message: 'This route is not defind yet'
+  });
+};
 
 app.use((req, res, next) => {
   console.log('Hello from the middleware11. Refactoring Our Routes 🔥  ');
@@ -141,9 +140,11 @@ app.use((req, res, next) => {
 });
 
 // 3) Routes
-app.use('/api/v1/tours',tourRouter)
 
-const tourRouter = express.Router()
+const userRoutes = express.Router();
+const tourRouter = express.Router();
+
+
 
 tourRouter
   .route('/')
@@ -156,19 +157,20 @@ tourRouter
   .patch(updateTour)
   .delete(deleteTour);
 
-
-  
-  app
-  .route('/api/v1/users')
+userRoutes
+  .route('/')
   .get(getAllUsers)
   .post(createUser);
 
-app
-  .route('/api/v1/users/:id')
+userRoutes
+  .route('/:id')
   .get(getUser)
   .patch(updateUser)
   .delete(deleteUser);
 
+
+app.use('/api/v1/users', userRoutes);
+app.use('/api/v1/tours', tourRouter);
 
 // 4) Start the server
 
