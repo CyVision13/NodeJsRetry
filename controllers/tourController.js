@@ -1,14 +1,11 @@
-const express = require('express');
 
 const fs = require('fs');
-
-const router = express.Router();
 
 const tours = JSON.parse(
   fs.readFileSync(`${__dirname}/../dev-data/data/tours-simple.json`)
 );
 
-const getTour = (req, res) => {
+exports.getTour = (req, res) => {
   console.log(req.params);
 
   const id = req.params.id * 1;
@@ -31,7 +28,7 @@ const getTour = (req, res) => {
   });
 };
 
-const getAllTours = (req, res) => {
+exports.getAllTours = (req, res) => {
   res.status(200).json({
     status: 'success',
     results: tours.length,
@@ -41,7 +38,7 @@ const getAllTours = (req, res) => {
   });
 };
 
-const createTour = (req, res) => {
+exports.createTour = (req, res) => {
   // console.log(req.body);
   const newId = tours[tours.length - 1].id + 1;
   const newTour = Object.assign({ id: newId }, req.body);
@@ -61,7 +58,7 @@ const createTour = (req, res) => {
   );
 };
 
-const updateTour = (req, res) => {
+exports.updateTour = (req, res) => {
   const id = req.params.id * 1;
 
   if (id > tours.length) {
@@ -79,7 +76,7 @@ const updateTour = (req, res) => {
   });
 };
 
-const deleteTour = (req, res) => {
+exports.deleteTour = (req, res) => {
   const id = req.params.id * 1;
 
   if (id > tours.length) {
@@ -94,16 +91,3 @@ const deleteTour = (req, res) => {
     data: null
   });
 };
-
-router
-  .route('/')
-  .get(getAllTours)
-  .post(createTour);
-
-router
-  .route('/:id')
-  .get(getTour)
-  .patch(updateTour)
-  .delete(deleteTour);
-
-module.exports = router;
