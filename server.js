@@ -12,22 +12,34 @@ mongoose
   .then(() => console.log('DB connection successful!'));
 
 const tourSchema = new mongoose.Schema({
-  name:{
-    type:String ,
-    required: [true,'A tour must have a name'],
+  name: {
+    type: String,
+    required: [true, 'A tour must have a name'],
     unique: true
   },
-  rating : {
-    type:Number,
+  rating: {
+    type: Number,
     default: 4.5
   },
-  price:{
-    type:Number,
-    required:[true,'A tour must have a price']
+  price: {
+    type: Number,
+    required: [true, 'A tour must have a price']
   }
-})
+});
+const Tour = mongoose.model('Tour', tourSchema);
+const testTour = new Tour({
+  name: 'Helomsar',
+  rating: 3.3,
+  price: 491
+});
 
-const Tour = mongoose.model('Tour',tourSchema)
+testTour
+  .save()
+  .then(doc => {
+    console.log(doc);
+  })
+  .catch(console.log('Error 💘 '));
+
 const port = process.env.PORT || 3000;
 
 app.listen(port, () => {
