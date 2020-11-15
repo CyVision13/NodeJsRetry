@@ -1,28 +1,5 @@
 const Tour = require('./../models/tourModel');
 
-// exports.checkId = (req, res, next, val) => {
-//   console.log(`Tour id is : ${val}`);
-//   const id = req.params.id * 1;
-
-//   if (id > tours.length) {
-//     return res.status(404).json({
-//       status: 'failed',
-//       message: 'Invalid ID'
-//     });
-//   }
-
-//   next();
-// };
-
-exports.checkBody = (req, res, next) => {
-  if (!req.body.name || !req.body.price) {
-    return res.status(400).json({
-      status: 'failed',
-      message: 'you need to fill name and price inputs'
-    });
-  }
-  next();
-};
 
 exports.getTour = (req, res) => {
   console.log(req.params);
@@ -50,13 +27,23 @@ exports.getAllTours = (req, res) => {
   });
 };
 
-exports.createTour = (req, res) => {
-  res.status(201).json({
-    status: 'success',
-    data: {
-      tour: newTour
-    }
-  });
+exports.createTour = async(req, res) => {
+
+  try {
+    const newTour = await Tour.create(req.body)
+    res.status(201).json({
+      status: 'success',
+      data: {
+        tour: newTour
+      }
+    });
+  }
+  catch(err) {
+    res.status(400).json({
+      status:'err',
+      message : 'invalid data set'
+    })
+  }
 };
 
 exports.updateTour = (req, res) => {
