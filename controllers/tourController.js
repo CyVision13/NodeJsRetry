@@ -8,6 +8,29 @@ exports.aliasTopTours = (req, res, next) => {
   next();
 };
 
+class APIFeatures {
+  constructor(query, queryString){
+    this.query = query
+    this.queryString = queryString
+  }
+  
+  filter(){
+
+    const queryObj = { ...this.queryString };
+    const excludedFields = ['page', 'sort', 'limit', 'fields'];
+
+    excludedFields.forEach(el => delete queryObj[el]);
+
+    // 1B) Advanced Filtering
+
+    let queryStr = JSON.stringify(queryObj);
+
+    queryStr = queryStr.replace(/\b(gt|gte|lt|lte)\b/g, match => `$${match}`);
+
+    this.query.find(JSON.parse(queryStr));
+  }
+}  
+
 exports.getTour = async (req, res) => {
   console.log(req.params);
 
@@ -32,20 +55,21 @@ exports.getAllTours = async (req, res) => {
   try {
     // 1A) Filtering
 
-    const queryObj = { ...req.query };
-    const excludedFields = ['page', 'sort', 'limit', 'fields'];
+    // const queryObj = { ...req.query };
+    // const excludedFields = ['page', 'sort', 'limit', 'fields'];
 
-    excludedFields.forEach(el => delete queryObj[el]);
+    // excludedFields.forEach(el => delete queryObj[el]);
 
-    // 1B) Advanced Filtering
+    // // 1B) Advanced Filtering
 
-    let queryStr = JSON.stringify(queryObj);
+    // let queryStr = JSON.stringify(queryObj);
 
-    queryStr = queryStr.replace(/\b(gt|gte|lt|lte)\b/g, match => `$${match}`);
+    // queryStr = queryStr.replace(/\b(gt|gte|lt|lte)\b/g, match => `$${match}`);
 
-    let query = Tour.find(JSON.parse(queryStr));
+    // let query = Tour.find(JSON.parse(queryStr));
 
     // 2) Sorting
+
 
     if (req.query.sort) {
       const sortBy = req.query.sort.split(',').join(' ');
@@ -77,8 +101,11 @@ exports.getAllTours = async (req, res) => {
       const numTours = Tour.countDocuments;
       if (skip >= numTours) throw new Error('This page does not Exist');
     }
+    // Execute Query
+    const features = new APIFeatures(Tour.find(),req.query).filter();
+    const tours = await features.query;
 
-    const tours = await query;
+    // SEND RESPONSE
     res.status(200).json({
       status: 'success',
       results: tours.length,
