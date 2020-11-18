@@ -10,6 +10,7 @@ exports.createUser = (req, res) => {
     message: 'This route is not defind yet'
   });
 };
+
 exports.getUser = (req, res) => {
   res.status(500).json({
     status: 'err',

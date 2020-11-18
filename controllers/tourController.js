@@ -1,5 +1,5 @@
 const Tour = require('./../models/tourModel');
-const APIFeatures = require('./../utils/apiFeatures')
+const APIFeatures = require('./../utils/apiFeatures');
 
 exports.aliasTopTours = (req, res, next) => {
   req.query.limit = '5';
@@ -8,8 +8,6 @@ exports.aliasTopTours = (req, res, next) => {
 
   next();
 };
-
-
 
 exports.getTour = async (req, res) => {
   console.log(req.params);
@@ -105,6 +103,36 @@ exports.deleteTour = async (req, res) => {
     res.status(400).json({
       status: 'err',
       message: 'invalid data set'
+    });
+  }
+};
+
+exports.getTourStats = async (req, res) => {
+  try {
+    const stats = await Tour.aggregate([
+      {
+        $match: { ratingAverage: { $gte: 4.5 } }
+      },
+      {
+        $group: {
+          _id: null,
+          num: { $sum: 1 }, // computing each document = 1 number and summ all of them
+          numRatings: { $sum: '$ratingsQuantity' },
+          avgRating: { $avg: '$ratingAverage' }
+        }
+      }
+    ]);
+
+    res.status(200).json({
+      status: 'success',
+      data: {
+        stats
+      }
+    });
+  } catch (err) {
+    res.status(404).json({
+      status: 'fail',
+      message: err
     });
   }
 };
