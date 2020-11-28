@@ -6,7 +6,7 @@
   "scripts": {
     "start:dev": "nodemon server.js",
     "start:prod": "NODE_ENV=production nodemon server.js",
-    "start": "nodemon server.js"
+    "start": "node server.js"
   },
   "author": "Jonas Schmedtmann",
   "license": "ISC",
@@ -38,4 +38,5 @@
     "url": "https://github.com/CyVision13/NodeJsRetry/issues"
   },
   "homepage": "https://github.com/CyVision13/NodeJsRetry#readme"
+  ,"engines": {"node": ">=10.0.0"}
 }
