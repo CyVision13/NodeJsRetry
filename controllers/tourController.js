@@ -10,11 +10,15 @@ exports.aliasTopTours = (req, res, next) => {
 };
 
 exports.getTour = async (req, res) => {
-  console.log(req.params);
+  console.log(req.params.id);
 
   const id = req.params.id;
+  console.log(id);
+  
   try {
     const tour = await Tour.findById(id);
+    // const tour = await Tour.findOne({_id:id})
+    console.log(tour);
     res.status(200).json({
       status: 'success',
       data: {
@@ -74,10 +78,16 @@ exports.createTour = async (req, res) => {
 
 exports.updateTour = async (req, res) => {
   try {
-    const tour = await Tour.findOneAndUpdate(req.params.id, req.body, {
+    const id = req.params.id
+    console.log(id);
+    
+    const tour = await Tour.findByIdAndUpdate(req.params.id, req.body, {
+    
+    //const tour = await Tour.findOneAndUpdate(id , req.body, {
       new: true,
       runValidators: true
     });
+    
     res.status(200).json({
       status: 'success',
       data: {
@@ -94,7 +104,7 @@ exports.updateTour = async (req, res) => {
 
 exports.deleteTour = async (req, res) => {
   try {
-    const tour = await Tour.findOneAndDelete(req.params.id);
+    const tour = await Tour.findByIdAndDelete(req.params.id);
     res.status(204).json({
       status: 'success',
       data: null

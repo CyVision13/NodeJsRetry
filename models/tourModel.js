@@ -112,10 +112,10 @@ tourSchema.pre(/^find/ ,function(next){
   next();
 })
 
-tourSchema.post(/^find/ ,function(docs,next){
-  console.log(docs);
-  next();
-})
+// tourSchema.post(/^find/ ,function(docs,next){
+//   console.log(docs);
+//   next();
+// })
 
 // *** Aggregation Middleware
 tourSchema.pre('aggregate',function(next){

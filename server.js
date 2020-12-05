@@ -8,7 +8,9 @@ mongoose
     .connect(process.env.DATABASE, {
     useNewUrlParser: true,
     useCreateIndex: true,
-    useFindAndModify: false
+    useFindAndModify: false,
+    dbName: "natours",
+    useUnifiedTopology: true 
   })
   .then(() => console.log('DB connection successful!'));
 
