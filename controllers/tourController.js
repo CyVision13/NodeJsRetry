@@ -1,5 +1,6 @@
 const Tour = require('./../models/tourModel');
 const APIFeatures = require('./../utils/apiFeatures');
+const catchAsync =  require('./../utils/catchAsync')
 
 exports.aliasTopTours = (req, res, next) => {
   req.query.limit = '5';
@@ -9,30 +10,47 @@ exports.aliasTopTours = (req, res, next) => {
   next();
 };
 
-exports.getTour = async (req, res) => {
-  console.log(req.params.id);
 
-  const id = req.params.id;
-  console.log(id);
-  
-  try {
-    const tour = await Tour.findById(id);
-    // const tour = await Tour.findOne({_id:id})
-    console.log(tour);
-    res.status(200).json({
-      status: 'success',
-      data: {
-        tour
-      }
-    });
-  } catch (err) {
-    res.status(400).json({
-      status: 'err',
-      message: 'invalid data set'
-    });
-  }
-};
+exports.getTour = catchAsync(async (req, res, next) => {
+  const tour = await Tour.findById(req.params.id);
 
+  // const tour = await Tour.findOne({_id:id})
+  console.log(tour);
+  res.status(200).json({
+    status: 'success',
+    data: {
+      tour
+    }
+  });
+
+  // try {
+
+  // } catch (err) {
+  //   res.status(400).json({
+  //     status: 'err',
+  //     message: 'invalid data set'
+  //   });
+  // }
+});
+
+exports.createTour = catchAsync(async (req, res, next) => {
+  const newTour = await Tour.create(req.body);
+  res.status(201).json({
+    status: 'success',
+    data: {
+      tour: newTour
+    }
+  });
+
+  // try {
+
+  // } catch (err) {
+  //   res.status(400).json({
+  //     status: 'err',
+  //     message: 'invalid data set'
+  //   });
+  // }
+});
 exports.getAllTours = async (req, res) => {
   try {
     // Execute Query
@@ -59,35 +77,17 @@ exports.getAllTours = async (req, res) => {
   }
 };
 
-exports.createTour = async (req, res) => {
-  try {
-    const newTour = await Tour.create(req.body);
-    res.status(201).json({
-      status: 'success',
-      data: {
-        tour: newTour
-      }
-    });
-  } catch (err) {
-    res.status(400).json({
-      status: 'err',
-      message: 'invalid data set'
-    });
-  }
-};
-
 exports.updateTour = async (req, res) => {
   try {
-    const id = req.params.id
+    const id = req.params.id;
     console.log(id);
-    
+
     const tour = await Tour.findByIdAndUpdate(req.params.id, req.body, {
-    
-    //const tour = await Tour.findOneAndUpdate(id , req.body, {
+      //const tour = await Tour.findOneAndUpdate(id , req.body, {
       new: true,
       runValidators: true
     });
-    
+
     res.status(200).json({
       status: 'success',
       data: {
@@ -178,16 +178,16 @@ exports.getMonthlyPlan = async (req, res) => {
           month: '$_id'
         }
       },
-      { 
-        $project :{ _id : 0}
+      {
+        $project: { _id: 0 }
       },
       {
-        $sort : {
-          numTourStarts : -1
+        $sort: {
+          numTourStarts: -1
         }
       },
       {
-        $limit: 12 
+        $limit: 12
       }
     ]);
     res.status(200).json({
