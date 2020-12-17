@@ -3,7 +3,6 @@ const catchAsync = require('./../utils/catchAsync');
 const jwt = require('jsonwebtoken');
 const AppError = require('./../utils/appError');
 
-
 const signToken = id => {
   return jwt.sign(
     {
@@ -14,7 +13,7 @@ const signToken = id => {
       expiresIn: process.env.JWT_EXPIRES_IN
     }
   );
-}
+};
 
 exports.signup = catchAsync(async (req, res, next) => {
   const newUser = await User.create({
@@ -24,7 +23,7 @@ exports.signup = catchAsync(async (req, res, next) => {
     passwordConfirm: req.body.passwordConfirm
   });
 
-  const token = signToken(newUser._id)
+  const token = signToken(newUser._id);
 
   res.status(201).json({
     status: 'success',
@@ -45,14 +44,30 @@ exports.login = catchAsync(async (req, res, next) => {
   // 2) Check if user exists && password is correct
   const user = await User.findOne({ email }).select('+password');
 
-  if(!user || !(await user.correctPassword(password,user.password))){
-    return next( new AppError('Incorrect Email Or Password',401))
+  if (!user || !(await user.correctPassword(password, user.password))) {
+    return next(new AppError('Incorrect Email Or Password', 401));
   }
 
   // 3) If everything ok, send token to client
-  const token = signToken(user._id)
+  const token = signToken(user._id);
   res.status(200).json({
     status: 'success',
     token
   });
+});
+
+exports.protect = catchAsync(async (req, res, next) => {
+  // 1) Getting token and check of it's there 
+  if(req.headers.authorization && req.headers.authorization)
+
+  // 2) Verification token 
+
+
+  // 3) Check if user still exists 
+
+
+  // 4) Check if user changed password after the JWT was issued
+
+  
+  next();
 });
