@@ -5,14 +5,14 @@ const {
   createUser,
   getUser,
   updateUser,
-  deleteUser,
- 
+  deleteUser
 } = require('./../controllers/userController');
 
-const  {signup} = require('./../controllers/authController')
+const { signup, login } = require('./../controllers/authController');
 const router = express.Router();
 
-router.post('/signup',signup)
+router.post('/signup', signup);
+router.post('/login', login);
 
 router
   .route('/')
